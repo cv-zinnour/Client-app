@@ -1,0 +1,25 @@
+.root {
+  height: 80vh;
+  width: 120vh;
+}
+
+
+button {
+  margin-top: 3em;
+}
+ngx-slider {
+  width: 80%;
+}
+#saveButton{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#endroits-select{
+  float: right;
+}
+
+#align{
+  display: contents;
+}

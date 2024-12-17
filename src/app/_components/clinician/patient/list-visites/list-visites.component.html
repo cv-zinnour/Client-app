@@ -1,0 +1,53 @@
+
+<nb-card>
+  <nb-card-header>Programmer la prochaine visite</nb-card-header>
+  <nb-card-body>
+    <input [(ngModel)]="date" nbInput placeholder="Sélectionner une date" [nbDatepicker]="dateTimePicker">
+    <nb-date-timepicker #dateTimePicker></nb-date-timepicker>
+    <button nbButton status="success" (click)="addAppointment()">
+      Ajouter<nb-icon icon="save-outline" [options]="{ animation: { type: 'pulse' } }"></nb-icon>
+    </button>
+
+  </nb-card-body>
+  <nb-card-footer>
+
+    <div *ngIf="dataSource.data.length === 0">Pas de visites.</div>
+    <table *ngIf="dataSource.data.length > 0 && patient!=null" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 50%">
+      <ng-container matColumnDef="Date">
+        <th mat-header-cell *matHeaderCellDef > Date</th>
+        <td mat-cell *matCellDef="let element"> {{element.appointmentDate.toString().substr(0, 10)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Heure">
+        <th mat-header-cell *matHeaderCellDef> Heure</th>
+        <td mat-cell *matCellDef="let element"> {{element.appointmentDate.toString().substr(11, 5)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef > Action </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" [matMenuTriggerFor]="opt">
+            <mat-icon class="mat-18">more_vert</mat-icon>
+          </button>
+          <mat-menu  #opt="matMenu" >
+            <button mat-menu-item (click)="update(element)" >
+            Modifier
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="delete(element)">
+              Suprimmer
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </nb-card-footer>
+</nb-card>
+
+

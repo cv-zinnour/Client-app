@@ -1,0 +1,50 @@
+<nb-card>
+  <nb-card-body>
+
+    <div class="container">
+      <mat-card *ngIf="selected === true" class="example-card" style="margin-bottom: 2em">
+        <!--<mat-card-header>
+          <div mat-card-avatar class="example-header-image">
+          </div>
+          <mat-card-title>{{patientSelected.firstName}}, {{patientSelected.lastName}}</mat-card-title>
+          <mat-card-subtitle>Numero de dossier : {{patientSelected.fileNumber}}</mat-card-subtitle>
+          <mat-card-subtitle *ngIf="patient">Date de derniere visite : 12/12/2019 </mat-card-subtitle>
+          <mat-card-subtitle style="color: crimson">Date de la prochaine visite : 01/01/2020 </mat-card-subtitle>
+          <mat-card-subtitle>Code compte patient : {{patientSelected.loginCode}}</mat-card-subtitle>
+
+
+
+
+        </mat-card-header>-->
+      </mat-card>
+      <h3 mat-dialog-title>Planifier une Visite</h3>
+
+
+
+      <mat-card-content>
+
+        <mat-dialog-content class="mat-typography">
+          <!--        <mat-form-field appearance="fill">
+                    <mat-label>Date</mat-label>
+                    <input #datev (dateChange)="getBirthday($event)" [matDatepicker]="picker" disabled matInput
+                           placeholder="Date de naissance">
+                    <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+                  </mat-form-field>-->
+        </mat-dialog-content>
+
+        <mat-dialog-actions align="end" appearance="fill">
+          <button mat-button mat-dialog-close>Fermer</button>
+        </mat-dialog-actions>
+        <p *ngIf="error" class="error">
+          {{ error }}
+        </p>
+
+
+
+      </mat-card-content>
+
+    </div>
+
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,10 @@
+
+::ng-deep nb-card{
+  border: 0px !important;
+}
+
+#title-ce, #title-lp{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

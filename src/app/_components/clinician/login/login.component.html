@@ -1,0 +1,18 @@
+<nb-layout>
+  <nb-layout-column>
+    <nb-card>
+      <nb-card-body>
+
+        <h1>POD-iSanté</h1>
+        <h4>Connexion</h4>
+
+        <input #usernameInput type="text" nbInput placeholder="Nom d'utilisateur" fieldSize="large">
+        <input #passwordInput type="password" nbInput placeholder="Mot de passe" fieldSize="large">
+
+        <button nbButton status="primary" (click)="onSubmit()">Connexion</button>
+        <a   routerLink="/forgetpassword">Mot de passe oublié ?</a>
+
+      </nb-card-body>
+    </nb-card>
+  </nb-layout-column>
+</nb-layout>

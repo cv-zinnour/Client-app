@@ -1,0 +1,23 @@
+.ec {
+  display: flex;
+  flex-direction: column;
+}
+nb-card {
+  height: 80vh;
+}
+
+nb-card nb-card-body div p{
+  width: 20em;
+}
+nb-card nb-card-body div{
+  display: flex;
+  flex-direction: row;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+nb-card nb-card-body nb-toggle {
+  padding-top: 1em;
+  padding-bottom: 2em;
+
+}

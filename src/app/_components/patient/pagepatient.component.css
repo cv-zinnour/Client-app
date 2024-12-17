@@ -1,0 +1,55 @@
+
+.column1 {
+  flex: 1 !important;
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh;
+  position: sticky;
+  top: 0;
+  background-color: #edf1f7;
+
+}
+
+.column2 {
+  flex: 4 !important;
+  box-shadow: 10.8px 19.5px 13.2px rgba(0, 0, 0, 0.048),
+  15.5px 28.1px 27.8px rgba(0, 0, 0, 0.072),
+  32px 58px 95px rgba(0, 0, 0, 0.12);
+}
+
+.column2 nb-card{
+  box-shadow: 10.8px 19.5px 13.2px rgba(0, 0, 0, 0.048),
+  15.5px 28.1px 27.8px rgba(0, 0, 0, 0.072),
+  32px 58px 95px rgba(0, 0, 0, 0.12);
+}
+
+.column1 nb-card {
+  display: flex;
+  flex-direction: row;
+  flex-basis: calc(100%);
+  align-items: center;
+  text-align: center;
+  border: 0;
+  background-color: #5cc9f3;
+  font-size: 200%;
+  color: white;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  position: fixed;
+  top: 3%;
+  left: calc(100% - 195px);
+  background-color: #fd99ff;
+  border: 0;
+  color: white;
+}
+
+.actions nb-card-body nb-actions nb-action nb-icon, .actions nb-card-body nb-actions nb-action{
+  margin-left: 10px;
+  margin-right: 10px;
+  color: white;
+}

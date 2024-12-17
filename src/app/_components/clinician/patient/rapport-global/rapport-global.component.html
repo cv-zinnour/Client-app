@@ -1,0 +1,371 @@
+<div class="report" id="htmlData">
+
+  <button id="dontprint" nbButton status="primary" fullWidth (click)="printPDF()">
+    Imprimer
+  </button>
+  <nb-card class="head">
+    <nb-card-body>
+      <div>
+        <h2>Rapport global</h2>
+      </div>
+
+      <div class="infos">
+          <p><b>Nom :</b> {{patient?.firstName}}</p>
+          <p><b>Prénom :</b> {{patient?.lastName}}</p>
+          <p><b>Date de naissance :</b> {{patient?.birthday}}</p>
+          <p><b>Sexe :</b> {{patient?.gender}}</p>
+          <p><b>Courriel :</b> {{patient?.contact.email}}</p>
+          <p><b>Numéro de téléphone :</b> {{patient?.contact.phone}}</p>
+          <p><b>NIP :</b> {{patient?.loginCode}}</p>
+      </div>
+
+      <div class="questionnaire">
+        <div>
+          <h2>Questionnaires</h2>
+        </div>
+        <div>
+
+          <h4>GPAQ</h4>
+          <div *ngIf="this.gpaq.length === 0">Pas de GPAQ.</div>
+          <div *ngIf="this.gpaq.length > 0">
+            <p id="dontprint">Selectionner une date</p>
+            <nb-select id="dontprint" placeholder="Selectionner une date" [(selected)]="selectedItemGpaq">
+              <nb-option *ngFor="let g of gpaq; let i = index;" [value]="i"
+                         (selectionChange)="gpaqOnChange(i)">{{g.date}}</nb-option>
+            </nb-select>
+            <div [nbSpinner]="loading2" nbSpinnerStatus="info"
+                 nbSpinnerSize="giant" nbSpinnerMessage="Pas de données, veuillez choisir deux dates.">
+              <nb-card-body class="load">
+              </nb-card-body>
+            </div>
+  <div  *ngIf="this.loading2 === false">
+    <p>Date: {{this.gpaq[selectedItemGpaq].date}}</p>
+
+    <div>
+      <h5>Travail</h5>
+      Modéré-vigoureux
+      :   {{travailModereVigoureuxUI}}
+      minutes
+      <h5>Transport (déplacement) : </h5>
+      A pied
+      : {{transportPiedUI}}
+      minutes<br>
+      A vélo
+      : {{transportVeloUI}}
+      minutes
+      <h5>Loisirs : </h5>
+      Modéré-vigoureux
+      : {{loisirsModereVigoureuxUI}}
+      minutes<br>
+      Marche
+      : {{loisirsMarcheUI}}
+      minutes<br>
+      Nombre de jours où vous avez pratiqué de l’activité physique
+      : {{jrsAcPhyUI}}
+      jours<br>
+    </div>
+    <div>
+      <h5>Total: {{totalUI}} minutes</h5>
+    </div>
+    <div class="cnvs" >
+      <canvas baseChart
+              [datasets]="barChar"
+              [options]="gpaqBarChartOptions"
+              [chartType]="barChartType">
+      </canvas>
+    </div>
+  </div>
+          </div>
+
+
+          <h4>BREQ</h4>
+          <div *ngIf="this.breq.length === 0">Pas de BREQ.</div>
+          <div *ngIf="this.breq.length > 0">
+            <p id="dontprint">Selectionner une date</p>
+            <nb-select id="dontprint" placeholder="Selectionner une date" [(selected)]="selectedItemBreq">
+              <nb-option *ngFor="let b of breq; let i = index;" [value]="i"
+                         (selectionChange)="breqOnChange(i)">{{b.date}}</nb-option>
+            </nb-select>
+            <div [nbSpinner]="loading3" nbSpinnerStatus="info"
+                 nbSpinnerSize="giant" nbSpinnerMessage="Pas de données, veuillez choisir deux dates.">
+              <nb-card-body class="load">
+              </nb-card-body>
+            </div>
+
+            <div *ngIf="this.loading3 === false">
+              <p>Date: {{this.breq[selectedItemBreq].date}}</p>
+
+              <div class="cnvs" style="">
+                <canvas baseChart
+                        [data]="pieChart"
+                        [labels]="pieChartLabelsBreq"
+                        [chartType]="pieChartType"
+                        [options]="pieChartOptions">
+                </canvas>
+              </div>
+
+              <div>
+                <b>Extrinsèque :</b> Recherche de récompenses et évitement de punitions externes. <br>
+                <b>Introjectée :</b> Recherche de récompenses et évitement de punitions internes. (protection et
+                valorisation de l’estime de soi, maintien de la réputation, évitement de culpabilité et de honte). <br>
+                <b>Identifiée :</b> En lien avec les valeurs personnelles, importance et utilité sociale de la tâche,
+                sens. Faire des tâches importantes (agréable ou non) qui sont en lien avec les valeurs de l’individu..
+                <br>
+                <b>Intrinsèque :</b> Faire des tâches par plaisir, satisfaction inhérente. Plaisir, concentration intense,
+                émotions positives reliées à la tâche.. <br>
+                <b>Démotivation :</b> Absence d’autorégulation et d’énergie volontaire. Désengagement, manque de sens,
+                résignation.. <br>
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+
+
+      <div >
+          <div id="dontprint" *ngIf="pd !== null || pd.length > 0">
+            <p style="font-size: large;">Sélectionnez une période:</p>
+            <nb-form-field>
+              <nb-icon nbPrefix icon="clock-outline"></nb-icon>
+              <nb-select placeholder="Sélectionnez une période" [(selected)]="selectedItemPD"
+                         (selectedChange)="onChangePD()" size="giant">
+                <nb-option *ngFor="let pdItem of pd; let i = index;"
+                           [value]="i">Date d'affectation: {{pdItem.initDateString}}
+                  <br>
+                  Date de récupération: {{pdItem.returnedAtString}}</nb-option>
+              </nb-select>
+            </nb-form-field>
+          </div>
+
+          <div id="dontprint" *ngIf="this.steps?.length > 0">
+            <p style="font-size: large;">Ou choisir deux dates:</p>
+            <div class="calendar">
+              <nb-calendar-range [range]="range" size="large" [min]="min"
+                                 (rangeChange)="handleRangeChange($event)"></nb-calendar-range>
+            </div>
+          </div>
+
+          <div class="p">
+<!--
+            <p>Date d'affectation: {{this.pd[selectedItemPD].initDateString}}</p>
+            <p>Date de récupération: {{this.pd[selectedItemPD].returnedAtString}}</p>
+-->
+
+            <h4 style="margin-top: 2em">Total hebdomadaire</h4>
+            <div *ngIf="this.steps?.length === 0">Pas de données.</div>
+            <div *ngIf="this.stats.length === 0 && this.minutesDto !== null" [nbSpinner]="loading"
+                     nbSpinnerStatus="info"
+                     nbSpinnerSize="giant" nbSpinnerMessage="Pas de données, veuillez choisir deux dates.">
+              <nb-card-body class="load">
+              </nb-card-body>
+            </div>
+            <div *ngIf="this.stats.length > 0">
+              <div  class="cnvs">
+                <canvas baseChart
+                        [data]="minutesPieChartData"
+                        [labels]="pieChartLabels"
+                        [chartType]="pieChartType"
+                        [options]="pieChartOptions">
+                </canvas>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="p">
+            <h4 style="margin-top: 2em">Nombre de pas</h4>
+            <div *ngIf="this.steps.length > 0" [nbSpinner]="loading" nbSpinnerStatus="info"
+                     nbSpinnerSize="giant" nbSpinnerMessage="Pas de données, veuillez choisir deux dates.">
+              <nb-card-body class="load">
+              </nb-card-body>
+            </div>
+            <div *ngIf="this.steps.length === 0">Pas de données.</div>
+            <div *ngIf="this.u?.length > 0">
+              <div  class="cnvs">
+                <canvas baseChart
+                        [datasets]="stepsBar"
+                        [labels]="stepsChartLabels"
+                        [options]="gpaqBarChartOptions"
+                        [chartType]="barChartType">
+                </canvas>
+              </div>
+            </div>
+          </div>
+
+      </div>
+
+
+      <nb-card-body>
+        <h2>Objectifs</h2>
+        <nb-card-body id="dontprint" *ngIf="recommendations.length !== 0">
+          <p>Selectionner une date</p>
+          <nb-select placeholder="Selectionner une date" [(selected)]="selectedItem" (selectedChange)="onChange()">
+            <nb-option *ngFor="let recommendation of recommendations; let i = index;"
+                       [value]="i">{{recommendation.dateRecommendation}}</nb-option>
+          </nb-select>
+        </nb-card-body>
+
+        <nb-card-body *ngIf="recommendations.length === 0">Pas d'objectif.</nb-card-body>
+
+        <div [nbSpinner]="loading4" nbSpinnerStatus="info"
+             nbSpinnerSize="giant" nbSpinnerMessage="Pas de données, veuillez choisir deux dates.">
+          <nb-card-body class="load">
+          </nb-card-body>
+        </div>
+
+        <nb-card-body *ngIf="recommendations.length > 0 && this.loading4 === false">
+          <p><b>Date:</b> {{recommendations.at(selectedItem).dateRecommendation}}</p>
+
+
+          <div *ngFor="let obj of objectif; index as i;">
+            <h4>{{i + 1}}- {{obj.objectif.objectif}}</h4>
+            <div *ngFor="let param of obj.objectif.parametre">
+              <p>{{param.param}}: {{param.value}}</p>
+            </div>
+
+            <h4>Barrières pour atteindre l’objectif</h4>
+            <div *ngIf="i === 0">
+              <p *ngIf="obj1Bar.length === 0">Pas de barrières</p>
+              <div *ngIf="obj1Bar.length > 0">
+                <div *ngFor="let bar of obj1Bar">
+                  <p>{{bar}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="i === 1">
+              <p *ngIf="obj2Bar.length === 0">Pas de barrières</p>
+              <div *ngIf="obj2Bar.length > 0">
+                <div *ngFor="let bar of obj2Bar">
+                  <p>{{bar}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="i === 2">
+              <p *ngIf="obj3Bar.length === 0">Pas de barrières</p>
+              <div *ngIf="obj3Bar.length > 0">
+                <div *ngFor="let bar of obj3Bar">
+                  <p>{{bar}}</p>
+                </div>
+              </div>
+            </div>
+
+            <h4>Moyens</h4>
+            <div *ngIf="i === 0">
+              <p *ngIf="obj1Moyen.length === 0">Pas de moyen</p>
+              <div *ngIf="obj1Moyen.length > 0">
+                <div *ngFor="let moyen of obj1Moyen">
+                  <p>{{moyen}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="i === 1">
+              <p *ngIf="obj2Moyen.length === 0">Pas de moyen</p>
+              <div *ngIf="obj2Moyen.length > 0">
+                <div *ngFor="let moyen of obj2Moyen">
+                  <p>{{moyen}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="i === 2">
+              <p *ngIf="obj3Moyen.length === 0">Pas de moyen</p>
+              <div *ngIf="obj3Moyen.length > 0">
+                <div *ngFor="let moyen of obj3Moyen">
+                  <p>{{moyen}}</p>
+                </div>
+              </div>
+            </div>
+
+            <h4 *ngIf="i === 0 || i === 1">Recommandations</h4>
+            <div *ngIf="i === 0">
+              <h5>Fréquence</h5>
+              <p *ngIf="!obj.recommandation.frequence">Pas de fréquence</p>
+              <p *ngIf="obj.recommandation.frequence">{{obj.recommandation.frequence}}</p>
+
+              <h5>Moments</h5>
+              <p *ngIf="obj1Moment.length === 0">Pas de moment</p>
+              <div *ngIf="obj1Moment.length > 0">
+                <div *ngFor="let moment of obj1Moment">
+                  <p>{{moment}}</p>
+                </div>
+              </div>
+
+              <h5>Intensité</h5>
+              <p>{{obj.recommandation.intensite.echelleString}} | {{obj.recommandation.intensite.echelleNumber}}</p>
+            </div>
+
+            <div *ngIf="i === 1">
+
+              <h5>Fréquence</h5>
+              <p *ngIf="!obj.recommandation.frequence">Pas de fréquence</p>
+              <p *ngIf="obj.recommandation.frequence">{{obj.recommandation.frequence}}</p>
+
+              <h5>Moments</h5>
+              <p *ngIf="obj2Moment.length === 0">Pas de moment</p>
+              <div *ngIf="obj2Moment.length > 0">
+                <div *ngFor="let moment of obj2Moment">
+                  <p>{{moment}}</p>
+                </div>
+              </div>
+
+              <h5>Intensité</h5>
+              <p>{{obj.recommandation.intensite.echelleString}} | {{obj.recommandation.intensite.echelleNumber}}</p>
+            </div>
+
+
+            <h4 *ngIf="i === 0 || i === 1">Précautions</h4>
+            <div *ngIf="i === 0">
+              <p *ngIf="obj1Precaution.length === 0">Pas de précautions</p>
+              <div *ngIf="obj1Precaution.length > 0">
+                <div *ngFor="let precaution of obj1Precaution">
+                  <p>{{precaution}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="i === 1">
+              <p *ngIf="obj2Precaution.length === 0">Pas de précautions</p>
+              <div *ngIf="obj2Precaution.length > 0">
+                <div *ngFor="let precaution of obj2Precaution">
+                  <p>{{precaution}}</p>
+                </div>
+              </div>
+            </div>
+
+            <h3>Niveau de confiance:</h3>
+            <div *ngIf="i === 0">
+              <p *ngIf="nc1 === -1">Pas de niveau de confiance</p>
+              <div *ngIf="nc1 > -1">{{nc1}}</div>
+            </div>
+
+            <div *ngIf="i === 1">
+              <p *ngIf="nc2 === -1">Pas de niveau de confiance</p>
+              <div *ngIf="nc2 > -1">{{nc2}}</div>
+            </div>
+
+            <div *ngIf="i === 2">
+              <p *ngIf="nc3 === -1">Pas de niveau de confiance</p>
+              <div *ngIf="nc3 > -1">{{nc3}}</div>
+            </div>
+
+          </div>
+
+
+
+
+        </nb-card-body>
+      </nb-card-body>
+
+
+
+    </nb-card-body>
+  </nb-card>
+</div>
+

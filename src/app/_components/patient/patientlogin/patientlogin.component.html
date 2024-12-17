@@ -1,0 +1,17 @@
+<nb-layout>
+  <nb-layout-column>
+    <nb-card>
+      <nb-card-body>
+
+        <h1>POD-iSanté</h1>
+        <h4>Connexion</h4>
+
+        <input #emailInput type="text" nbInput placeholder="Email" fieldSize="large">
+        <input #pinInput type="password" nbInput placeholder="PIN" fieldSize="large">
+
+        <button nbButton status="primary" (click)="submit()">Connexion</button>
+
+      </nb-card-body>
+    </nb-card>
+  </nb-layout-column>
+</nb-layout>

@@ -1,0 +1,143 @@
+<nb-card class="parent" accent="info" id="g" >
+  <nb-card-header class="header" style="background-color: rgba(238,248,255,0.58)">
+
+    <div class="item-name">
+      <nb-icon icon="person-outline"></nb-icon>
+      <mat-card-title style="text-transform: capitalize;">{{patient?.firstName}}, {{patient?.lastName}}</mat-card-title>
+    </div>
+    <!-- <div class="item-date">
+       <nb-icon icon="calendar-outline"></nb-icon>
+       <mat-card-subtitle *ngIf="lastVisite!=null">Date de la prochaine visite
+         : {{lastVisite.appointmentDate}}</mat-card-subtitle>
+     </div>-->
+    <div class="item-code">
+      <nb-icon icon="hash-outline"></nb-icon>
+      <mat-card-subtitle>NIP : {{patient?.loginCode}}</mat-card-subtitle>
+    </div>
+    <!--
+        <button nbButton ghost><mat-icon aria-hidden="false" aria-label="Podemetre" style="color: #48e348; transform: scale(2)" (click)="podometre()">watch</mat-icon></button>
+        <button nbButton ghost><mat-icon aria-hidden="false" aria-label="Podemetre" style="color: #ff4156; transform: scale(2)" (click)="podometre()">watch_off</mat-icon></button>
+    -->
+    <button nbButton ghost>
+      <mat-icon aria-hidden="false" aria-label="Podemetre" style="color: #1e1d1d; transform: scale(2)"
+                (click)="podometre()">watch
+      </mat-icon>
+    </button>
+
+    <button class="item-print-report" nbButton status="warning" (click)="report()">
+      Générer le rapport Global
+      <nb-icon icon="printer-outline" [options]="{ animation: { type: 'pulse' } }"></nb-icon>
+    </button>
+    <!--<a class="item-print-report" nbButton status="warning" href="/report/{{this.patient.id}}" target="_blank">
+      Générer le rapport Global
+      <nb-icon icon="printer-outline" [options]="{ animation: { type: 'pulse' } }"></nb-icon>
+    </a>-->
+
+
+  </nb-card-header>
+  <nb-card-body class="child">
+    <mat-tab-group (selectedTabChange)="tabClick($event)" [(selectedIndex)]="this.tabIndex" *ngIf="patient!=null">
+
+      <mat-tab class="labeltab tab1" label="Identification du patient">
+
+        <div class="infos">
+          <div>
+            <p>Nom</p>
+            <h6 style="text-transform: capitalize;">{{patient?.firstName}}</h6>
+          </div>
+
+          <div>
+            <p>Prénom</p>
+            <h6 style="text-transform: capitalize;">{{patient?.lastName}}</h6>
+          </div>
+
+          <div>
+            <p>Nom de la mère</p>
+            <h6 style="text-transform: capitalize;">{{patient?.motherName}}</h6>
+          </div>
+        </div>
+        <div class="contact">
+          <div>
+            <p>Numéro de téléphone</p>
+            <h6>{{patient?.contact.phone}}</h6>
+          </div>
+
+          <div>
+            <p>Adresse e-mail</p>
+            <h6>{{patient?.contact.email}}</h6>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="labeltab" label="Informations du patient">
+
+        <nb-card-body>
+          <div class="infos">
+            <div>
+              <p>Date de naissance</p>
+              <h6 style="text-transform: capitalize;">{{patient?.birthday}}</h6>
+            </div>
+
+            <div>
+              <p>Taille (cm)</p>
+              <h6 *ngIf="height !== null" style="text-transform: capitalize;">{{height}}</h6>
+              <p *ngIf="height === null">/</p>
+            </div>
+
+            <div>
+              <p>Poids (kg)</p>
+              <h6 *ngIf="weight !== null" style="text-transform: capitalize;">{{weight}}</h6>
+              <p *ngIf="weight === null">/</p>
+            </div>
+            <div>
+              <p>IMC</p>
+              <h6 *ngIf="imc !== null" style="text-transform: capitalize;">{{imc}}</h6>
+              <p *ngIf="imc === null">/</p>
+            </div>
+          </div>
+
+        </nb-card-body>
+
+        <nb-card class="parent" status="info" style="margin-top: 2em">
+          <nb-card-header>Informations personnelles</nb-card-header>
+          <nb-card-body class="Informations personnels">
+            <app-patient-infos></app-patient-infos>
+          </nb-card-body>
+        </nb-card>
+
+      </mat-tab>
+
+      <mat-tab class="labeltab" label="Questionnaire individuel">
+        <app-quizindivid [patient]="patient"></app-quizindivid>
+      </mat-tab>
+
+      <mat-tab class="labeltab" label="Examen clinique et bilan sanguin">
+        <app-examen-clinique-bilan-lipidique-read [patient]="patient"></app-examen-clinique-bilan-lipidique-read>
+      </mat-tab>
+
+      <mat-tab class="labeltab" label="Visites">
+        <app-list-visites [patient]="patient"></app-list-visites>
+      </mat-tab>
+
+      <mat-tab class="labeltab" label="Objectifs">
+        <app-objectif-read [recommendations]="recommendations"></app-objectif-read>
+      </mat-tab>
+
+      <mat-tab label="Rapport visuel">
+        <app-rapport-visuel [patient]="patient"></app-rapport-visuel>
+      </mat-tab>
+      <!--
+            <mat-tab label="Rapport visuel">
+
+              <app-rapport [patient]="patient"></app-rapport>
+            </mat-tab>
+      -->
+
+
+    </mat-tab-group>
+    <!--<app-recommm></app-recommm>-->
+
+
+  </nb-card-body>
+
+</nb-card>

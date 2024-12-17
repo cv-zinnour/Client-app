@@ -1,0 +1,57 @@
+<nb-layout>
+  <nb-layout-column class="body">
+    <nb-card>
+      <nb-card-body>
+        <h5>Ajouter un utilisateur</h5>
+
+        <mat-card class="mat-elevation-z0 box">
+          <mat-card-header>
+            <mat-card-title style="color: black">
+              Pour ajouter un utilisateur vous devrez l'inviter par mail.
+            </mat-card-title>
+          </mat-card-header>
+
+
+          <mat-form-field class="example-full-width" appearance="fill">
+            <input #email matInput placeholder="Email" [formControl]="emailFormControl"
+                   [errorStateMatcher]="matcher">
+            <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+              S'il vous plaît, mettez une adresse email valide
+            </mat-error>
+            <mat-error *ngIf="emailFormControl.hasError('required')">
+              L'e-mail est requis
+            </mat-error>
+          </mat-form-field>
+
+
+          <mat-form-field appearance="outline">
+            <mat-label>Role</mat-label>
+            <select #profile matInput matNativeControl [(ngModel)]="profile.value" >
+              <option *ngFor="let p of profilelist"
+                      [value]="p.role">
+                {{p.name}}
+              </option>
+            </select>
+          </mat-form-field>
+
+
+          <button mat-stroked-button (click)="register(
+      email.value,
+      profile.value )"
+                  color="primary" class="btn-block">Inviter
+            <img *ngIf="loading" />
+          </button>
+
+        </mat-card>
+
+      </nb-card-body>
+      <nb-card-body>
+        <h5>Listes des utilisateurs</h5>
+
+        <app-users-list></app-users-list>
+      </nb-card-body>
+    </nb-card>
+  </nb-layout-column>
+</nb-layout>
+
+

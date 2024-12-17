@@ -1,0 +1,14 @@
+.bl {
+  display: flex;
+  flex-direction: column;
+}
+
+nb-card nb-card-body div p{
+  width: 20em;
+}
+nb-card nb-card-body div{
+  display: flex;
+  flex-direction: row;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}

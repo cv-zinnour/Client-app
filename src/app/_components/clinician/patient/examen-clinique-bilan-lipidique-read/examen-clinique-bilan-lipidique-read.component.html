@@ -1,0 +1,110 @@
+<nb-card>
+
+  <nb-card class="clinical-examination">
+
+
+    <nb-card-body id="title-ce">
+      <h2>Examen clinique</h2>
+      <button nbButton status="danger" shape="round" size="small" (click)="addClinicalExamination()">Ajouter un examen clinique<nb-icon icon="plus"></nb-icon></button>
+    </nb-card-body>
+    <!--<nb-card-body *ngIf="this.patient.medicalFile.clinicalExamination.length !== 0">
+     <p>Selectionner une date</p>
+      <nb-select placeholder="Selectionner une date" [(selected)]="selectedItem"  (selectedChange)="onChangeClinicalExamination()" >
+        <nb-option *ngFor="let cl of this.patient.medicalFile.clinicalExamination; let i = index;"  [value]="i">{{cl.date}}</nb-option>
+      </nb-select>
+    </nb-card-body>
+-->
+    <nb-card-body *ngIf="this.patient.medicalFile.clinicalExamination.length === 0">Pas d'examen clinique.</nb-card-body>
+
+    <nb-card *ngIf="patient?.medicalFile.clinicalExamination !== undefined && patient?.medicalFile.clinicalExamination.length > 0">
+      <nb-card-body *ngFor="let ce of patient?.medicalFile.clinicalExamination">
+        <p><b>Date : </b>{{ce.date}}</p>
+        <h5>Anthropométrie</h5>
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col">Poids</th>
+            <th scope="col">Grandeur</th>
+            <th scope="col">IMC</th>
+            <th scope="col">Tour de taille</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>{{ce.anthropometry.weight}}</td>
+            <td>{{ce.anthropometry.height}}</td>
+            <td>{{ce.anthropometry.imc}}</td>
+            <td>{{ce.anthropometry.waist}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <h5>Signes vitaux</h5>
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col">Bras droit</th>
+            <th scope="col">Bras gauche</th>
+            <th scope="col">FC (repos)</th>
+            <th scope="col">Le pouls est-il régulier?</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>{{ce?.cardiovascular.bloodPressure.bloodPressureRightHandSystolique}} / {{ce?.cardiovascular.bloodPressure.bloodPressureRightHandDiastolique}}</td>
+            <td>{{ce?.cardiovascular.bloodPressure.bloodPressureLeftHandSystolique}} / {{ce?.cardiovascular.bloodPressure.bloodPressureLeftHandDiastolique}}</td>
+            <td>{{ce?.cardiovascular.heartRate.value}}</td>
+            <td *ngIf="ce.cardiovascular.heartRate.regular === true">Oui</td>
+            <td *ngIf="ce.cardiovascular.heartRate.regular === false">Non</td>
+          </tr>
+          </tbody>
+        </table>
+      </nb-card-body>
+    </nb-card>
+  </nb-card>
+
+  <nb-card class="lipid-profile">
+
+    <nb-card-body id="title-lp">
+      <h2>Bilan sanguin</h2>
+      <button nbButton status="danger" shape="round" size="small" (click)="addBilanLipidique()">Ajouter un bilan sanguin<nb-icon icon="plus"></nb-icon></button>
+    </nb-card-body>
+<!--
+    <nb-card-body *ngIf="bilanLipidique.length !== 0">
+      <p>Selectionner une date</p>
+      <nb-select placeholder="Selectionner une date" [(selected)]="selectedItem2"  (selectedChange)="onChangeBilanLipidique()" >
+        <nb-option *ngFor="let lp of bilanLipidique; let i = index;"  [value]="i">{{lp.date}}</nb-option>
+      </nb-select>
+    </nb-card-body>
+-->
+    <nb-card-body *ngIf="this.patient.medicalFile.lipidProfiles.length === 0">Pas de bilan sanguin</nb-card-body>
+
+    <nb-card *ngIf="this.patient.medicalFile.lipidProfiles.length > 0">
+      <nb-card-body *ngFor="let lp of patient?.medicalFile.lipidProfiles">
+        <p><b>Date : </b>{{lp.date}}</p>
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col">HDL</th>
+            <th scope="col">NOHDL</th>
+            <th scope="col">HBA1C</th>
+            <th scope="col">LDL</th>
+            <th scope="col">Glucose à jeûn</th>
+            <th scope="col">Glucose aléatoire</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>{{lp.hdl}}</td>
+            <td>{{lp.nohdl}}</td>
+            <td>{{lp.hba1c}}</td>
+            <td>{{lp.ldl}}</td>
+            <td>{{lp.glucoseJeun}}</td>
+            <td>{{lp.glucoseAleatoire}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </nb-card-body>
+    </nb-card>
+  </nb-card>
+
+</nb-card>
